@@ -1,14 +1,17 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser'
+import { NgModule } from '@angular/core'
 
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MyDashboardComponent } from './my-dashboard/my-dashboard.component';
-import { MatGridListModule, MatCardModule, MatMenuModule, MatIconModule, MatButtonModule, MatToolbarModule, MatSidenavModule, MatListModule } from '@angular/material';
-import { MyNavComponent } from './my-nav/my-nav.component';
-import { LayoutModule } from '@angular/cdk/layout';
-import { routing } from './app-routing.module';
-import { RouterModule } from '@angular/router';
+import { AppComponent } from './app.component'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { MyDashboardComponent } from './my-dashboard/my-dashboard.component'
+import {
+  MatGridListModule, MatStepperModule, MatMenuModule, MatIconModule, MatButtonModule,
+  MatToolbarModule, MatSidenavModule, MatListModule
+} from '@angular/material'
+import { MyNavComponent } from './my-nav/my-nav.component'
+import { LayoutModule } from '@angular/cdk/layout'
+import { AppRoutingModule } from './app-routing.module'
+import { ReactiveFormsModule } from '@angular/forms'
 
 @NgModule({
   declarations: [
@@ -20,7 +23,7 @@ import { RouterModule } from '@angular/router';
     BrowserModule,
     BrowserAnimationsModule,
     MatGridListModule,
-    MatCardModule,
+    MatStepperModule,
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
@@ -28,8 +31,8 @@ import { RouterModule } from '@angular/router';
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
-    routing,
-    RouterModule
+    AppRoutingModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

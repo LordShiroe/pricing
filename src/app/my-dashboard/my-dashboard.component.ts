@@ -1,15 +1,39 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms'
 
 @Component({
-  selector: 'my-dashboard',
+  selector: 'app-dashboard',
   templateUrl: './my-dashboard.component.html',
   styleUrls: ['./my-dashboard.component.css']
 })
-export class MyDashboardComponent {
-  cards = [
-    { title: 'Card 1', cols: 2, rows: 1 },
-    { title: 'Card 2', cols: 1, rows: 1 },
-    { title: 'Card 3', cols: 1, rows: 2 },
-    { title: 'Card 4', cols: 1, rows: 1 }
-  ];
+export class MyDashboardComponent implements OnInit {
+  formGroup: FormGroup
+  formArray: FormArray
+  isValid = false
+  constructor(private formBuiler: FormBuilder) { }
+
+  ngOnInit() {
+    this.formGroup = this.formBuiler.group({
+      array: this.formBuiler.array([
+        this.formBuiler.group({
+          header: this.formBuiler.group({
+            iva: [19, Validators.required],
+            earning: [10, Validators.required]
+          }),
+          materials: this.formBuiler.array([])
+        }),
+        this.formBuiler.group({
+          email: ['', Validators.email],
+          subject: ['', Validators.maxLength(140)],
+          text: ''
+        })
+      ])
+    })
+    this.formArray = this.formGroup.get('array') as FormArray
+  }
+
+  addMaterial() {
+    const materials = this.formArray.at(0).get('materials') as FormArray
+  }
+
 }

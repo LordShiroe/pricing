@@ -1,13 +1,16 @@
-import { Routes, RouterModule } from "@angular/router";
-import { MyDashboardComponent } from "./my-dashboard/my-dashboard.component";
-import { ModuleWithProviders } from "@angular/core";
+import { NgModule } from '@angular/core'
+import { Routes, RouterModule } from '@angular/router'
+import { MyDashboardComponent } from './my-dashboard/my-dashboard.component'
 export const routes: Routes = [
   {
-    path: "",
+    path: '',
     component: MyDashboardComponent,
   },
-];
+  { path: '**', redirectTo: '' }
+]
 
-export const routing: ModuleWithProviders = RouterModule.forRoot(routes, {
-  useHash: true
-});
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
