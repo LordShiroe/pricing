@@ -5,7 +5,7 @@
       <mat-step [completed]="isValid">
         <ng-template matStepLabel>Escoge los Materiales</ng-template>
         <div>
-          <app-table [materials]="materialData"></app-table>
+          <app-table *ngIf="datasource" [materials]="datasource"></app-table>
           <button mat-button matStepperNext type="button">Siguiente</button>
         </div>
       </mat-step>

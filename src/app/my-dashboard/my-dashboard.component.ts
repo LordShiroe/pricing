@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms'
 import { Material } from '../contracts/resources/material'
 import { MaterialsService } from '../services/http-services/materials.service'
+import { MyTableDataSource } from '../my-table/my-table-datasource'
 
 @Component({
   selector: 'app-dashboard',
@@ -9,6 +10,7 @@ import { MaterialsService } from '../services/http-services/materials.service'
   styleUrls: ['./my-dashboard.component.css']
 })
 export class MyDashboardComponent implements OnInit {
+  datasource: MyTableDataSource
   materialData: Material[] = []
   materials: FormArray
   formGroup: FormGroup
@@ -39,7 +41,10 @@ export class MyDashboardComponent implements OnInit {
     })
     this.formArray = this.formGroup.get('array') as FormArray
     this.materials = this.formArray.at(0).get('materials') as FormArray
-    this.materialService.get().subscribe(data => this.materialData = data)
+    this.materialService.get().subscribe(data => {
+      this.materialData = data
+      this.datasource = new MyTableDataSource(data)
+    })
   }
 
   addMaterial(matRow: Material) {

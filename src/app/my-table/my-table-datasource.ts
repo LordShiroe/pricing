@@ -11,10 +11,33 @@ import { Material } from '../contracts/resources/material'
  */
 export class MyTableDataSource extends DataSource<Material> {
   data: Material[]
+  private checkedRows = new Set<number>()
 
-  constructor(private paginator: MatPaginator, private sort: MatSort, private materials: Material[]) {
+  /**
+   * TODO: Observable o Subject con los checkeds
+   */
+
+  private paginator: MatPaginator
+  private sort: MatSort
+  constructor(private materials: Material[]) {
     super()
     this.data = materials
+  }
+
+  set pager(paginator: MatPaginator) {
+    this.paginator = paginator
+  }
+
+  get pager() {
+    return this.paginator
+  }
+
+  set sorter(sort: MatSort) {
+    this.sort = sort
+  }
+
+  get sorter() {
+    return this.sort
   }
 
   /**
@@ -71,6 +94,22 @@ export class MyTableDataSource extends DataSource<Material> {
         default: return 0
       }
     })
+  }
+
+  checked(action: boolean, row: Material) {
+    if (action) {
+      this.checkedRows.add(row.id)
+    } else {
+      this.checkedRows.delete(row.id)
+    }
+  }
+
+  checkedAll(action: boolean) {
+    if (action) {
+      this.data.forEach(row => this.checkedRows.add(row.id))
+    } else {
+      this.data.forEach(row => this.checkedRows.delete(row.id))
+    }
   }
 }
 

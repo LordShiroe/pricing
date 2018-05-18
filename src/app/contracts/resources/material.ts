@@ -1,4 +1,5 @@
 export interface Material {
+  selected?: boolean
   id: number
   name: string
   unit: string

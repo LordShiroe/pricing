@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core'
+import { Component, OnInit, ViewChild, Input, EventEmitter } from '@angular/core'
 import { MatPaginator, MatSort } from '@angular/material'
 import { SelectionModel } from '@angular/cdk/collections'
 
@@ -11,22 +11,22 @@ import { Material } from '../contracts/resources/material'
   styleUrls: ['./my-table.component.css']
 })
 export class MyTableComponent implements OnInit {
-  private _materials: Material[]
+  dataSource: MyTableDataSource
 
   @ViewChild(MatPaginator) paginator: MatPaginator
   @ViewChild(MatSort) sort: MatSort
-  @Input() set materials(value: Material[]) {
-    this._materials = value
+  @Input() set materials(value: MyTableDataSource) {
+    this.dataSource = value
   }
 
-  dataSource: MyTableDataSource
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['select', 'name', 'unit_value', 'amount']
   selection = new SelectionModel<Material>(true, [])
 
   ngOnInit() {
-    this.dataSource = new MyTableDataSource(this.paginator, this.sort, this._materials)
+    this.dataSource.pager = this.paginator
+    this.dataSource.sorter = this.sort
   }
 
   isAllSelected() {
@@ -36,11 +36,19 @@ export class MyTableComponent implements OnInit {
   }
 
   masterToggle() {
-    this.isAllSelected() ? this.selection.clear() : this.dataSource.data.forEach(row => this.selection.select(row))
+    const selected = this.isAllSelected()
+    if (selected) {
+      this.selection.clear()
+    } else {
+      this.dataSource.data.forEach(row => this.selection.select(row))
+    }
+    this.dataSource.checkedAll(selected)
   }
 
   onChange(event, row) {
-    console.log(event)
-    return event ? this.selection.toggle(row) : null
+    if (event.checked) {
+      this.selection.toggle(row)
+    }
+    this.dataSource.checked(event.checked, row)
   }
 }
