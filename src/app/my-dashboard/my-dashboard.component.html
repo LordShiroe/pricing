@@ -1,10 +1,11 @@
 <div class="grid-container">
   <h1 class="mat-h1">Generación de Cotizacion</h1>
   <form [formGroup]="formGroup">
-    <mat-horizontal-stepper formArrayName="formArray" linear>
+    <mat-horizontal-stepper formArrayName="array" linear>
       <mat-step [completed]="isValid">
         <ng-template matStepLabel>Escoge los Materiales</ng-template>
         <div>
+          <app-table [materials]="materialData"></app-table>
           <button mat-button matStepperNext type="button">Siguiente</button>
         </div>
       </mat-step>

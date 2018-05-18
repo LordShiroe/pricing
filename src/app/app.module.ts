@@ -6,18 +6,20 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MyDashboardComponent } from './my-dashboard/my-dashboard.component'
 import {
   MatGridListModule, MatStepperModule, MatMenuModule, MatIconModule, MatButtonModule,
-  MatToolbarModule, MatSidenavModule, MatListModule
+  MatToolbarModule, MatSidenavModule, MatListModule, MatTableModule, MatPaginatorModule, MatSortModule, MatCheckboxModule
 } from '@angular/material'
 import { MyNavComponent } from './my-nav/my-nav.component'
 import { LayoutModule } from '@angular/cdk/layout'
 import { AppRoutingModule } from './app-routing.module'
 import { ReactiveFormsModule } from '@angular/forms'
+import { MyTableComponent } from './my-table/my-table.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     MyDashboardComponent,
-    MyNavComponent
+    MyNavComponent,
+    MyTableComponent
   ],
   imports: [
     BrowserModule,
@@ -27,12 +29,16 @@ import { ReactiveFormsModule } from '@angular/forms'
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
+    MatCheckboxModule,
     LayoutModule,
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]
