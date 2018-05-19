@@ -12,14 +12,16 @@ import { MyNavComponent } from './my-nav/my-nav.component'
 import { LayoutModule } from '@angular/cdk/layout'
 import { AppRoutingModule } from './app-routing.module'
 import { ReactiveFormsModule } from '@angular/forms'
-import { MyTableComponent } from './my-table/my-table.component'
+import { MyTableComponent } from './my-table/my-table.component';
+import { AppFormTableComponent } from './app-form-table/app-form-table.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     MyDashboardComponent,
     MyNavComponent,
-    MyTableComponent
+    MyTableComponent,
+    AppFormTableComponent
   ],
   imports: [
     BrowserModule,
