@@ -1,8 +1,13 @@
 import { DataSource } from '@angular/cdk/collections'
 import { MatPaginator, MatSort } from '@angular/material'
 import { map } from 'rxjs/operators'
-import { Observable, of as observableOf, merge } from 'rxjs'
+import { Observable, of as observableOf, merge, Subject } from 'rxjs'
 import { Material } from '../contracts/resources/material'
+
+export interface CheckedEmitter {
+  checked: boolean
+  row: Material
+}
 
 /**
  * Data source for the MyTable view. This class should
@@ -11,14 +16,12 @@ import { Material } from '../contracts/resources/material'
  */
 export class MyTableDataSource extends DataSource<Material> {
   data: Material[]
+  public checkedSubject = new Subject<CheckedEmitter>()
+
   private checkedRows = new Set<number>()
-
-  /**
-   * TODO: Observable o Subject con los checkeds
-   */
-
   private paginator: MatPaginator
   private sort: MatSort
+
   constructor(private materials: Material[]) {
     super()
     this.data = materials
@@ -102,14 +105,16 @@ export class MyTableDataSource extends DataSource<Material> {
     } else {
       this.checkedRows.delete(row.id)
     }
+    this.checkedSubject.next({
+      checked: action,
+      row: row
+    })
   }
 
   checkedAll(action: boolean) {
-    if (action) {
-      this.data.forEach(row => this.checkedRows.add(row.id))
-    } else {
-      this.data.forEach(row => this.checkedRows.delete(row.id))
-    }
+    this.data.forEach(row => {
+      this.checked(action, row)
+    })
   }
 }
 

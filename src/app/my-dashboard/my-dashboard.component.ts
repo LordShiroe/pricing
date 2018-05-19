@@ -44,6 +44,14 @@ export class MyDashboardComponent implements OnInit {
     this.materialService.get().subscribe(data => {
       this.materialData = data
       this.datasource = new MyTableDataSource(data)
+      this.datasource.checkedSubject.subscribe(event => {
+        if (event.checked) {
+          this.addMaterial(event.row)
+        } else {
+          const index = this.searchMaterial(event.row)
+          this.removeMaterial(index)
+        }
+      })
     })
   }
 
@@ -62,7 +70,17 @@ export class MyDashboardComponent implements OnInit {
   }
 
   removeMaterial(index: number) {
-    this.materials.removeAt(index)
+    try {
+      this.materials.removeAt(index)
+    } catch (err) {
+      console.error(err)
+      console.log('Tal vez el indice a remover es menor a cero')
+    }
+  }
+
+  searchMaterial(material: Material) {
+    const materials = this.materials.value as any[]
+    return materials.findIndex(_material => material.id === _material.id)
   }
 
 }
