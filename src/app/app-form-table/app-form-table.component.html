@@ -1,0 +1,21 @@
+<div class="mat-elevation-z8">
+  <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+    <ng-container matColumnDef="select">
+      <mat-cell *matCellDef="let row">
+        <button mat-icon-button>
+          <mat-icon aria-label="Boton Eliminar">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
+    </ng-container>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="50" [pageSizeOptions]="[25, 50, 100, 250]">
+  </mat-paginator>
+</div>
