@@ -1,5 +1,5 @@
 <div class="mat-elevation-z8">
-  <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+  <mat-table #table [dataSource]="dataSource" aria-label="Elements">
     <ng-container matColumnDef="select">
       <mat-cell *matCellDef="let row">
         <button mat-icon-button>
@@ -8,14 +8,38 @@
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="name">
-      <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
+      <mat-cell *matCellDef="let row">{{row.get('name').value}}</mat-cell>
     </ng-container>
-    <ng-container matColumnDef="name">
-      <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
+    <ng-container matColumnDef="amount">
+      <mat-cell *matCellDef="let row">
+        <mat-form-field>
+          <input type="number" matInput placeholder="Cantidad a vender" [formControl]="row.get('requestedAmount')" required>
+          <mat-error *ngIf="row.get('requestedAmount').invalid">{{getErrorMessage(row.get('requestedAmount'))}}</mat-error>
+          <span matSuffix> de {{row.get('amount').value}}</span>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="iva">
+      <mat-cell *matCellDef="let row">
+        <mat-form-field>
+          <input type="number" matInput placeholder="Porcentaje de IVA" [formControl]="row.get('iva')" required>
+          <mat-error *ngIf="row.get('iva').invalid">{{getErrorMessage(row.get('iva'))}}</mat-error>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="earning">
+      <mat-cell *matCellDef="let row">
+        <mat-form-field>
+          <input type="number" matInput placeholder="Porcentaje de Ganancia" [formControl]="row.get('earning')" required>
+          <mat-error *ngIf="row.get('earning').invalid">{{getErrorMessage(row.get('earning'))}}</mat-error>
+        </mat-form-field>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="total">
+      <mat-cell *matCellDef="let row">
+        {{row.get('total_value').value |currency}}
+      </mat-cell>
     </ng-container>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
-
-  <mat-paginator #paginator [length]="dataSource.data.length" [pageIndex]="0" [pageSize]="50" [pageSizeOptions]="[25, 50, 100, 250]">
-  </mat-paginator>
 </div>
