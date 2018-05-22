@@ -5,8 +5,8 @@ import { AppComponent } from './app.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MyDashboardComponent } from './my-dashboard/my-dashboard.component'
 import {
-  MatGridListModule, MatStepperModule, MatMenuModule, MatIconModule, MatButtonModule,
-  MatToolbarModule, MatSidenavModule, MatListModule, MatTableModule, MatPaginatorModule, MatSortModule, MatCheckboxModule
+  MatGridListModule, MatStepperModule, MatMenuModule, MatIconModule, MatButtonModule, MatFormFieldModule,
+  MatToolbarModule, MatSidenavModule, MatListModule, MatTableModule, MatPaginatorModule, MatSortModule, MatCheckboxModule, MatInputModule
 } from '@angular/material'
 import { MyNavComponent } from './my-nav/my-nav.component'
 import { LayoutModule } from '@angular/cdk/layout'
@@ -34,6 +34,8 @@ import { AppFormTableComponent } from './app-form-table/app-form-table.component
     MatIconModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatFormFieldModule,
+    MatInputModule,
     LayoutModule,
     MatToolbarModule,
     MatSidenavModule,
