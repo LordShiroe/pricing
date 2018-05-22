@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms'
 import { Material } from '../contracts/resources/material'
 import { MaterialsService } from '../services/http-services/materials.service'
 import { MyTableDataSource } from '../my-table/my-table-datasource'
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./my-dashboard.component.css']
 })
 export class MyDashboardComponent implements OnInit, OnDestroy {
-  subscription: Subscription;
+  subscription: Subscription
   datasource: MyTableDataSource
   materialData: Material[] = []
   materials: FormArray
