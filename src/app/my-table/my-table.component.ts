@@ -42,13 +42,11 @@ export class MyTableComponent implements OnInit {
     } else {
       this.dataSource.data.forEach(row => this.selection.select(row))
     }
-    this.dataSource.checkedAll(selected)
+    this.dataSource.checkedAll(!selected)
   }
 
   onChange(event, row) {
-    if (event.checked) {
-      this.selection.toggle(row)
-    }
+    this.selection.toggle(row)
     this.dataSource.checked(event.checked, row)
   }
 }

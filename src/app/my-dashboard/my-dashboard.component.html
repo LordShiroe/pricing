@@ -2,7 +2,7 @@
   <h1 class="mat-h1">Generación de Cotizacion</h1>
   <form [formGroup]="formGroup">
     <mat-horizontal-stepper formArrayName="array" linear>
-      <mat-step [completed]="isValid">
+      <mat-step [stepControl]="materials">
         <ng-template matStepLabel>Escoge los Materiales</ng-template>
         <div>
           <app-table *ngIf="datasource" [materials]="datasource"></app-table>
@@ -12,6 +12,7 @@
       <mat-step formGroupName="0" [stepControl]="formArray.get([0])">
         <ng-template matStepLabel>Indica los Porcentajes</ng-template>
         <div>
+          <app-form-table [formTree]="materials"></app-form-table>
           <button mat-button matStepperPrevious type="button">Anterior</button>
           <button mat-button matStepperNext type="button">Siguiente</button>
         </div>

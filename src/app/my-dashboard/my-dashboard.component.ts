@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, OnDestroy } from '@angular/core'
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms'
 import { Material } from '../contracts/resources/material'
 import { MaterialsService } from '../services/http-services/materials.service'
 import { MyTableDataSource } from '../my-table/my-table-datasource'
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './my-dashboard.component.html',
   styleUrls: ['./my-dashboard.component.css']
 })
-export class MyDashboardComponent implements OnInit {
+export class MyDashboardComponent implements OnInit, OnDestroy {
+  subscription: Subscription;
   datasource: MyTableDataSource
   materialData: Material[] = []
   materials: FormArray
@@ -23,6 +25,7 @@ export class MyDashboardComponent implements OnInit {
   constructor(private formBuiler: FormBuilder, private materialService: MaterialsService) { }
 
   ngOnInit() {
+    this.subscription = new Subscription()
     this.formGroup = this.formBuiler.group({
       array: this.formBuiler.array([
         this.formBuiler.group({
@@ -51,20 +54,32 @@ export class MyDashboardComponent implements OnInit {
           const index = this.searchMaterial(event.row)
           this.removeMaterial(index)
         }
+        this.isValid = Boolean(this.materials.length)
+        console.log(event)
       })
     })
   }
 
+  ngOnDestroy() {
+    this.subscription.unsubscribe()
+  }
+
   addMaterial(matRow: Material) {
+    let total = matRow.unit_value + (matRow.unit_value * (this.earning / 100))
+    total = total + (total * (this.iva / 100))
     const material = this.formBuiler.group({
       id: [matRow.id, Validators.required],
       name: matRow.name,
       amount: matRow.amount,
-      requestedAmount: [0, Validators.required],
+      requestedAmount: [1, Validators.compose([Validators.required, Validators.min(1)])],
       unit_value: [matRow.unit_value, Validators.required],
-      iva: [this.iva, Validators.required],
-      earning: [this.earning, Validators.required]
+      total_value: [total, Validators.required],
+      iva: [this.iva, Validators.compose([Validators.required, Validators.min(0)])],
+      earning: [this.earning, Validators.compose([Validators.required, Validators.min(0)])]
     })
+    this.subscription.add(material.valueChanges.subscribe(() => {
+      material.get('total_value').setValue(this.getTotal(material), { emitEvent: false })
+    }))
     this.materials.push(material)
     return this.materials.length - 1
   }
@@ -76,6 +91,17 @@ export class MyDashboardComponent implements OnInit {
       console.error(err)
       console.log('Tal vez el indice a remover es menor a cero')
     }
+  }
+
+  private getTotal(row: FormGroup) {
+    const amount = row.get('requestedAmount').value
+    const iva = row.get('iva').value
+    const earning = row.get('earning').value
+    const unitValue = row.get('unit_value').value
+    let total = unitValue * amount
+    total = total + (total * (earning / 100))
+    total = total + (total * (iva / 100))
+    return total
   }
 
   searchMaterial(material: Material) {

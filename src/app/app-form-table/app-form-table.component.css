@@ -1,0 +1,21 @@
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance:textfield;
+}
+
+mat-cell:first-child, mat-footer-cell:first-child, mat-header-cell:first-child{
+    padding-left: 10px;
+    width: 20px;
+    display: table;
+}
+
+mat-cell{
+    margin-top:5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
