@@ -6,8 +6,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MyDashboardComponent } from './my-dashboard/my-dashboard.component'
 import {
   MatGridListModule, MatStepperModule, MatMenuModule, MatIconModule, MatButtonModule, MatFormFieldModule,
-  MatToolbarModule, MatSidenavModule, MatListModule, MatTableModule, MatPaginatorModule, MatSortModule, MatCheckboxModule, MatInputModule
+  MatToolbarModule, MatSidenavModule, MatListModule, MatTableModule, MatPaginatorModule, MatSortModule,
+  MatCheckboxModule, MatInputModule
 } from '@angular/material'
+import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MyNavComponent } from './my-nav/my-nav.component'
 import { LayoutModule } from '@angular/cdk/layout'
 import { AppRoutingModule } from './app-routing.module'
@@ -44,7 +46,8 @@ import { AppFormTableComponent } from './app-form-table/app-form-table.component
     ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatAutocompleteModule
   ],
   providers: [],
   bootstrap: [AppComponent]

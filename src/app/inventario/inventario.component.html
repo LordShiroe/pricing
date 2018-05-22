@@ -1,3 +1,17 @@
 <div class="grid-container">
   <h1 class="mat-h1">Registrar Inventario</h1>
+  <mat-form-field class="big">
+    <input type="text" placeholder="Material" aria-label="Nombre del Material" matInput [formControl]="myControl" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field class="small">
+    <input matInput placeholder="Cantidad" type="number" aria-label="Cantidad del Material">
+  </mat-form-field>
+  <mat-form-field class="medium">
+    <input matInput placeholder="Precio" type="number" aria-label="Precio del Material">
+  </mat-form-field>
 </div>

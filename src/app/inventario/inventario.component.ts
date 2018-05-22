@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core'
-import { FormGroup, FormBuilder, Validators } from '@angular/forms'
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
+import { Observable } from 'rxjs'
+import { map, startWith } from 'rxjs/operators'
 
 @Component({
   selector: 'app-inventario',
@@ -13,6 +15,16 @@ export class InventarioComponent implements OnInit {
   private amount = 1
   private price = 1000
 
+  myControl: FormControl = new FormControl()
+
+  options = [
+    'One',
+    'Two',
+    'Three'
+  ]
+
+  filteredOptions: Observable<string[]>
+
   constructor(private formbuilder: FormBuilder) { }
 
   ngOnInit() {
@@ -22,6 +34,16 @@ export class InventarioComponent implements OnInit {
       price: [this.price, Validators.compose([Validators.required, Validators.min(0)])]
 
     })
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(val => this.filter(val))
+      )
+  }
+
+  filter(val: string): string[] {
+    return this.options.filter(option =>
+      option.toLowerCase().includes(val.toLowerCase()))
   }
 
 }
