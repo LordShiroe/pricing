@@ -2,7 +2,7 @@
   <mat-table #table [dataSource]="dataSource" aria-label="Elements">
     <ng-container matColumnDef="select">
       <mat-cell *matCellDef="let row">
-        <button mat-icon-button>
+        <button mat-icon-button (click)="delete(row)">
           <mat-icon aria-label="Boton Eliminar">delete</mat-icon>
         </button>
       </mat-cell>

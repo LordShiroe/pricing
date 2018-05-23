@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { AppFormTableDataSource } from './app-form-table-datasource';
 import { FormControl, FormArray } from '@angular/forms';
@@ -27,6 +27,8 @@ export class AppFormTableComponent implements OnInit {
     this.dataSource = new AppFormTableDataSource(value)
   }
 
+  @Output() deleted = new EventEmitter()
+
   ngOnInit() {
   }
 
@@ -35,5 +37,9 @@ export class AppFormTableComponent implements OnInit {
       formControl.hasError('min') ? `El minimo valor es ${formControl.getError('min').min}` : ''
   }
 
+  delete(row: FormControl) {
+    this.deleted.emit(row.value)
+    console.log("emit")
+  }
 
 }

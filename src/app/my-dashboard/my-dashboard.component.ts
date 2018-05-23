@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms'
 import { Material } from '../contracts/resources/material'
 import { MaterialsService } from '../services/http-services/materials.service'
 import { MyTableDataSource } from '../my-table/my-table-datasource'
-import { Subscription } from 'rxjs'
+import { Subscription, Subject } from 'rxjs'
 
 @Component({
   selector: 'app-dashboard',
@@ -18,6 +18,7 @@ export class MyDashboardComponent implements OnInit, OnDestroy {
   formGroup: FormGroup
   formArray: FormArray
   isValid = false
+  deleted = new Subject()
 
   private iva = 19
   private earning = 10
@@ -55,13 +56,18 @@ export class MyDashboardComponent implements OnInit, OnDestroy {
           this.removeMaterial(index)
         }
         this.isValid = Boolean(this.materials.length)
-        console.log(event)
       })
     })
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe()
+  }
+
+  onDelete(row) {
+    const index = this.searchMaterial(row)
+    this.removeMaterial(index)
+    this.deleted.next(row)
   }
 
   addMaterial(matRow: Material) {

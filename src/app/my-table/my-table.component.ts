@@ -4,6 +4,7 @@ import { SelectionModel } from '@angular/cdk/collections'
 
 import { MyTableDataSource } from './my-table-datasource'
 import { Material } from '../contracts/resources/material'
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-table',
@@ -15,18 +16,32 @@ export class MyTableComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator
   @ViewChild(MatSort) sort: MatSort
-  @Input() set materials(value: MyTableDataSource) {
-    this.dataSource = value
-  }
-
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['select', 'name', 'unit_value', 'amount']
   selection = new SelectionModel<Material>(true, [])
 
+  @Input() deletedEvent: Subject<any>
+
+  @Input() set materials(value: MyTableDataSource) {
+    this.dataSource = value
+    this.dataSource.data.forEach(row => {
+      if (row.selected) {
+        this.selection.select(row)
+      } else {
+        this.selection.deselect(row)
+      }
+    })
+  }
+
   ngOnInit() {
     this.dataSource.pager = this.paginator
     this.dataSource.sorter = this.sort
+    this.deletedEvent.subscribe(deletedControlData => {
+      const index = this.dataSource.data.findIndex(row => row.id === deletedControlData.id)
+      console.log(index)
+      this.selection.deselect(this.dataSource.data[index])
+    })
   }
 
   isAllSelected() {

@@ -5,14 +5,14 @@
       <mat-step [stepControl]="materials">
         <ng-template matStepLabel>Escoge los Materiales</ng-template>
         <div>
-          <app-table *ngIf="datasource" [materials]="datasource"></app-table>
+          <app-table *ngIf="datasource" [materials]="datasource" [deletedEvent]="deleted"></app-table>
           <button mat-button matStepperNext type="button">Siguiente</button>
         </div>
       </mat-step>
       <mat-step formGroupName="0" [stepControl]="formArray.get([0])">
         <ng-template matStepLabel>Indica los Porcentajes</ng-template>
         <div>
-          <app-form-table [formTree]="materials"></app-form-table>
+          <app-form-table [formTree]="materials" (deleted)="onDelete($event)"></app-form-table>
           <button mat-button matStepperPrevious type="button">Anterior</button>
           <button mat-button matStepperNext type="button">Siguiente</button>
         </div>
