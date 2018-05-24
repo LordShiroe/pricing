@@ -4,6 +4,7 @@ import { Material } from '../contracts/resources/material'
 import { MaterialsService } from '../services/http-services/materials.service'
 import { MyTableDataSource } from '../my-table/my-table-datasource'
 import { Subscription, Subject } from 'rxjs'
+import { distinctUntilChanged, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +12,7 @@ import { Subscription, Subject } from 'rxjs'
   styleUrls: ['./my-dashboard.component.css']
 })
 export class MyDashboardComponent implements OnInit, OnDestroy {
-  subscription: Subscription
+  subscription = new Subscription()
   datasource: MyTableDataSource
   materialData: Material[] = []
   materials: FormArray
@@ -26,7 +27,6 @@ export class MyDashboardComponent implements OnInit, OnDestroy {
   constructor(private formBuiler: FormBuilder, private materialService: MaterialsService) { }
 
   ngOnInit() {
-    this.subscription = new Subscription()
     this.formGroup = this.formBuiler.group({
       array: this.formBuiler.array([
         this.formBuiler.group({
@@ -45,6 +45,18 @@ export class MyDashboardComponent implements OnInit, OnDestroy {
     })
     this.formArray = this.formGroup.get('array') as FormArray
     this.materials = this.formArray.at(0).get('materials') as FormArray
+    this.subscription.add(this.formArray.at(0).get('header').valueChanges
+      .pipe(distinctUntilChanged(),
+        debounceTime(500)
+      ).subscribe(val => {
+        const length = this.materials.length
+        for (let i = 0; i < length; i++) {
+          this.materials.at(i).patchValue({
+            iva: val.iva,
+            earning: val.earning
+          })
+        }
+      }))
     this.materialService.get().subscribe(data => {
       this.materialData = data
       this.datasource = new MyTableDataSource(data)

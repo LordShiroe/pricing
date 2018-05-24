@@ -14,8 +14,8 @@
       <mat-cell *matCellDef="let row">
         <mat-form-field>
           <input type="number" matInput placeholder="Cantidad a vender" [formControl]="row.get('requestedAmount')" required>
-          <mat-error *ngIf="row.get('requestedAmount').invalid">{{getErrorMessage(row.get('requestedAmount'))}}</mat-error>
           <span matSuffix> de {{row.get('amount').value}}</span>
+          <mat-error *ngIf="row.get('requestedAmount').invalid">{{getErrorMessage(row.get('requestedAmount'))}}</mat-error>
         </mat-form-field>
       </mat-cell>
     </ng-container>
@@ -23,6 +23,7 @@
       <mat-cell *matCellDef="let row">
         <mat-form-field>
           <input type="number" matInput placeholder="Porcentaje de IVA" [formControl]="row.get('iva')" required>
+          <span matSuffix> %</span>
           <mat-error *ngIf="row.get('iva').invalid">{{getErrorMessage(row.get('iva'))}}</mat-error>
         </mat-form-field>
       </mat-cell>
@@ -31,6 +32,7 @@
       <mat-cell *matCellDef="let row">
         <mat-form-field>
           <input type="number" matInput placeholder="Porcentaje de Ganancia" [formControl]="row.get('earning')" required>
+          <span matSuffix> %</span>
           <mat-error *ngIf="row.get('earning').invalid">{{getErrorMessage(row.get('earning'))}}</mat-error>
         </mat-form-field>
       </mat-cell>

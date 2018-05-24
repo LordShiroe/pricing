@@ -1,0 +1,14 @@
+<div id="form">
+  <form *ngIf="form" [formGroup]="form">
+    <mat-form-field>
+      <input type="number" matInput placeholder="Porcentaje de Ganancia" [formControl]="form.get('earning')" required>
+      <mat-error *ngIf="form.get('earning').invalid">{{getErrorMessage(form.get('earning'))}}</mat-error>
+      <span matSuffix> %</span>
+    </mat-form-field>
+    <mat-form-field>
+      <input type="number" matInput placeholder="Porcentaje de IVA" [formControl]="form.get('iva')" required>
+      <mat-error *ngIf="form.get('earning').invalid">{{getErrorMessage(form.get('iva'))}}</mat-error>
+      <span matSuffix> %</span>
+    </mat-form-field>
+  </form>
+</div>

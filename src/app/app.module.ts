@@ -16,7 +16,8 @@ import { AppRoutingModule } from './app-routing.module'
 import { ReactiveFormsModule } from '@angular/forms'
 import { MyTableComponent } from './my-table/my-table.component'
 import { InventarioComponent } from './inventario/inventario.component'
-import { AppFormTableComponent } from './app-form-table/app-form-table.component'
+import { AppFormTableComponent } from './app-form-table/app-form-table.component';
+import { HeaderFormComponent } from './header-form/header-form.component'
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { AppFormTableComponent } from './app-form-table/app-form-table.component
     MyNavComponent,
     MyTableComponent,
     InventarioComponent,
-    AppFormTableComponent
+    AppFormTableComponent,
+    HeaderFormComponent
   ],
   imports: [
     BrowserModule,

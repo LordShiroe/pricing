@@ -12,6 +12,7 @@
       <mat-step formGroupName="0" [stepControl]="formArray.get([0])">
         <ng-template matStepLabel>Indica los Porcentajes</ng-template>
         <div>
+          <app-header-form [form]="formArray.at(0).get('header')"></app-header-form>
           <app-form-table [formTree]="materials" (deleted)="onDelete($event)"></app-form-table>
           <button mat-button matStepperPrevious type="button">Anterior</button>
           <button mat-button matStepperNext type="button">Siguiente</button>
