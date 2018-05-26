@@ -1,24 +1,33 @@
 <div class="mat-elevation-z8">
   <mat-table #table [dataSource]="dataSource" aria-label="Elements">
+
     <ng-container matColumnDef="select">
       <mat-cell *matCellDef="let row">
         <button mat-icon-button (click)="delete(row)">
           <mat-icon aria-label="Boton Eliminar">delete</mat-icon>
         </button>
       </mat-cell>
+      <mat-cell mat-footer-cell *matFooterCellDef> </mat-cell>
     </ng-container>
+
     <ng-container matColumnDef="name">
       <mat-cell *matCellDef="let row">{{row.get('name').value}}</mat-cell>
+      <mat-cell mat-footer-cell *matFooterCellDef></mat-cell>
     </ng-container>
+
     <ng-container matColumnDef="amount">
       <mat-cell *matCellDef="let row">
-        <mat-form-field>
-          <input type="number" matInput placeholder="Cantidad a vender" [formControl]="row.get('requestedAmount')" required>
+        <mat-form-field [ngClass]="{'red-carret': row.get('requestedAmount').value > row.get('amount').value}">
+          <input [ngClass]="{'red-carret': row.get('requestedAmount').value > row.get('amount').value}" type="number" matInput placeholder="Cantidad a vender"
+            [formControl]="row.get('requestedAmount')" required>
           <span matSuffix> de {{row.get('amount').value}}</span>
           <mat-error *ngIf="row.get('requestedAmount').invalid">{{getErrorMessage(row.get('requestedAmount'))}}</mat-error>
         </mat-form-field>
       </mat-cell>
+      <mat-cell mat-footer-cell *matFooterCellDef class="left-align">
+        <strong> Cantidad Total: </strong> {{totals.amount}} </mat-cell>
     </ng-container>
+
     <ng-container matColumnDef="iva">
       <mat-cell *matCellDef="let row">
         <mat-form-field>
@@ -27,7 +36,9 @@
           <mat-error *ngIf="row.get('iva').invalid">{{getErrorMessage(row.get('iva'))}}</mat-error>
         </mat-form-field>
       </mat-cell>
+      <mat-cell mat-footer-cell *matFooterCellDef> </mat-cell>
     </ng-container>
+
     <ng-container matColumnDef="earning">
       <mat-cell *matCellDef="let row">
         <mat-form-field>
@@ -36,12 +47,18 @@
           <mat-error *ngIf="row.get('earning').invalid">{{getErrorMessage(row.get('earning'))}}</mat-error>
         </mat-form-field>
       </mat-cell>
+      <mat-cell mat-footer-cell *matFooterCellDef> </mat-cell>
     </ng-container>
+
     <ng-container matColumnDef="total">
-      <mat-cell *matCellDef="let row">
+      <mat-cell *matCellDef="let row" class="left-align">
         {{row.get('total_value').value |currency}}
       </mat-cell>
+      <mat-cell mat-footer-cell *matFooterCellDef class="left-align">
+        <strong>Precio Total: </strong> {{totals.price|currency}} </mat-cell>
     </ng-container>
+
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-row mat-footer-row *matFooterRowDef="displayedColumns"></mat-row>
   </mat-table>
 </div>

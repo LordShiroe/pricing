@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
-import { MatPaginator, MatSort } from '@angular/material';
-import { AppFormTableDataSource } from './app-form-table-datasource';
-import { FormControl, FormArray } from '@angular/forms';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core'
+import { MatPaginator, MatSort } from '@angular/material'
+import { AppFormTableDataSource } from './app-form-table-datasource'
+import { FormControl, FormArray } from '@angular/forms'
+import { map } from 'rxjs/operators'
 
 /**
  * Nota. Tal vez crear metodo que reciba la row como formgroup y retorne un
@@ -16,12 +17,12 @@ import { FormControl, FormArray } from '@angular/forms';
   styleUrls: ['./app-form-table.component.css']
 })
 export class AppFormTableComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-  dataSource: AppFormTableDataSource;
-
+  @ViewChild(MatPaginator) paginator: MatPaginator
+  @ViewChild(MatSort) sort: MatSort
+  dataSource: AppFormTableDataSource
+  totals = { amount: 0, price: 0 }
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['select', 'name', 'amount', 'earning', 'iva', 'total'];
+  displayedColumns = ['select', 'name', 'amount', 'earning', 'iva', 'total']
 
   @Input() set formTree(value: FormArray) {
     this.dataSource = new AppFormTableDataSource(value)
@@ -30,6 +31,12 @@ export class AppFormTableComponent implements OnInit {
   @Output() deleted = new EventEmitter()
 
   ngOnInit() {
+    this.dataSource.data.valueChanges.subscribe(value => {
+      const totalAmount = value.map(elem => elem.requestedAmount).reduce((a, b) => a + b, 0)
+      const totalPrice = value.map(elem => elem.total_value).reduce((a, b) => a + b, 0)
+      this.totals.amount = totalAmount
+      this.totals.price = totalPrice
+    })
   }
 
   getErrorMessage(formControl: FormControl) {
@@ -39,7 +46,6 @@ export class AppFormTableComponent implements OnInit {
 
   delete(row: FormControl) {
     this.deleted.emit(row.value)
-    console.log("emit")
   }
 
 }
